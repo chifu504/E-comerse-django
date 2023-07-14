@@ -1,0 +1,78 @@
+version: '3'
+
+services:
+
+  rabbitmq:
+    image: rabbitmq:3.10
+    container_name: rabbitmq-container
+    ports:
+      - "5672:5672"
+    volumes:
+      - ./rabbitmq:/var/lib/rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=dani
+      - RABBITMQ_DEFAULT_PASS=holabb
+
+  web:
+    build: .
+    container_name: django-container
+    command: ["./wait-for-it.sh", "db:5432", "--",
+              "uwsgi", "--ini", "/app/config/uwsgi/uwsgi.ini"]
+    restart: always 
+    volumes:
+      - .:/app
+    environment: 
+      - DJANGO_SETTINGS_MODULE=myshop.settings
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=dani504
+      - POSTGRES_PASSWORD=4D6aFb9C5e
+    depends_on:
+      - db
+      - rabbitmq
+      - redis
+
+  db:
+    image: postgres:14.5
+    restart: always
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=dani504
+      - POSTGRES_PASSWORD=4D6aFb9C5e
+    command: bash -c "chmod 0700 /var/lib/postgresql/data && docker-entrypoint.sh postgres"
+
+
+  celery:
+    build: .
+    container_name: celery-container
+    command: celery -A myshop worker -l info
+    volumes:
+      - .:/app
+    environment: 
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=dani504
+      - POSTGRES_PASSWORD=4D6aFb9C5e
+    depends_on:
+      - rabbitmq
+
+  redis:
+    image: redis:latest 
+    container_name: redis-container
+    ports:
+      - "6379:6379"
+
+  nginx:
+    image: nginx:1.23.1
+    restart: always
+    volumes:
+      - ./config/nginx:/etc/nginx/templates
+      - .:/app
+    ports:
+      - "80:80"
+      - "443:443"
+
+
+
+
+

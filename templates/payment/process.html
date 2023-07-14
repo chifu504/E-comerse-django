@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}<title>Resumen de pedido</title>{% endblock title %}
+{% block likncss %} <link rel="stylesheet" href="{% static 'css/carrito.css' %}">{% endblock likncss %}
+{% block content %}
+<div class="container">
+  <h3>Resumen de tu compra</h3><br>
+    <table class="product-table">
+      <thead>
+        <tr>
+          <th>Imagen</th>
+          <th>Nombre del producto</th>
+          <th>Cantidad</th>
+          <th>Talla</th>
+          <th>Color</th>
+          <th>Precio unitario</th>
+          <th>Precio total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in  order.items.all %}
+        <tr>
+            <td><img src="{% if item.product.image %}{{ item.product.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}"></td>
+            <td>{{  item.product.name }}</td>
+            <td>{{ item.quantity}}</td>
+            <td>{{ item.talla}}</td>
+            <td>{{ item.product.color}}</td>
+            <td>${{ item.price }}</td>
+            <td>${{ item.get_cost }}</td>
+          </tr>
+          {% endfor %}
+      </tbody>
+    </table>
+    <div class="total-price">
+      {% comment %} <p>Precio total: ${{  order.get_total_cost }}</p> {% endcomment %}
+{% if order.coupon %}
+<tr class="subtotal">
+<td>Subtotal</td>
+<td colspan="3"></td>
+<td class="num">
+${{ order.get_total_cost_before_discount|floatformat:2 }}
+</td>
+</tr>
+<tr>
+<td>
+"{{ order.coupon.code }}" coupon
+({{ order.discount }}% off)
+</td>
+<td colspan="3"></td>
+<td class="num neg">
+- ${{ order.get_discount|floatformat:2 }}
+</td>
+</tr>
+{% endif %}
+<tr class="total">
+<td>Total</td>
+<td colspan="3"></td>
+<td class="num">
+${{ order.get_total_cost|floatformat:2 }}
+</td>
+</tr>
+      <form action="{% url "payment:process" %}" method="post">
+        <button type="submit" class="pay-now">Pagar</button>
+        {% csrf_token %}
+        </form>
+    </div>
+  </div>
+{% endblock content %}
+
+

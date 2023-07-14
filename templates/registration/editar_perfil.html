@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block likncss %} <link rel="stylesheet" href="{% static 'css/registro.css' %}">{% endblock likncss %}
+{% block title %}<title> {{ product.name }}</title>{% endblock title %}
+{% block content %}
+<div class="container">
+    <h2>editar perfil</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{form.as_p}} <br>
+
+        <button type="submit">guardar</button>
+    </form>
+    </form>
+  </div>
+{% endblock content %}

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block likncss %} <link rel="stylesheet" href="{% static 'css/create.css' %}">{% endblock likncss %}
+{% block title %}<title>Datos</title>{% endblock title %}
+{% block content %}
+<div class="container">
+    <form method="post">
+      <h2>Ingresa tus datos</h2>
+      <p>registrar pago</p>
+   {{ form.as_p }}
+   {% csrf_token %}
+      <button type="submit">Enviar</button>
+    </form>
+</div>
+{% endblock content %}

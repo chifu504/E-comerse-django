@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block likncss %} <link rel="stylesheet" href="{% static 'css/list_products.css' %}">{% endblock likncss %}
+{% block content %}
+
+<!-- cuerpo -->
+
+<div class="container">
+    <div class="categories">
+      <h3>Categorías</h3>
+      <ul>
+        <li {% if not category %}class="selected"{% endif %}><a href="{% url "shop:product_list" %}">All</a></li>
+        {% for c in categories %}
+        <li {% if category.slug == c.slug %}class="selected"{% endif %}><a href="{{ c.get_absolute_url }}">{{ c.name }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+    
+    <div class="products">
+      <div class="header">
+        <h2 class="titulo_categoria">{% if category %}{{ category.name }}{% else %}Products{% endif %}</h2>
+
+        <div class="filter-form">
+          <form method="GET">
+            {% comment %} {% csrf_token %} {% endcomment %}
+            <div class="form-inputs">
+              <label for="size" class="price-label">Precio:</label>
+              <input placeholder="Min" type="number" id="price-min" name="precio_min">-
+              <input placeholder="Max" type="number" id="price-max" name="precio_max">
+              <label for="talla">Talla:</label>
+              <select id="size" name="talla">
+                <option value="">Todas</option>
+                <option value="S">S</option>
+                <option value="M">M</option>
+                <option value="L">L</option>
+              </select>
+              <label for="color">Color:</label>
+              <select id="color" name="color">
+                <option value="">Todos</option>
+                <option value="negro">negro</option>
+                <option value="blanco">blanco</option>
+                <option value="gris">gris</option>
+              </select>
+              <button type="submit">Filtrar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+        <!-- listado de productos -->
+      <div class="grid">
+        {% for product in products %}
+        <div class="product">
+          <a href="{{ product.get_absolute_url }}">
+            <div class="product-image">
+                <img src="{% if product.image %}{{ product.image.url }}{% else %}{%static "img/no_image.png" %}{% endif %}">
+            </div>
+            <div class="product-details">
+              <h4><a href="{{ product.get_absolute_url }}">{{ product.name }}</a></h4>
+              <p>{{ product.description|truncatechars:50  }}</p>
+              <p>Precio: ${{ product.price }}</p>
+            </div>
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+
+
+    </div>
+
+
+    <div class="paginacion">
+            <!-- Mostrar enlaces de paginación -->
+      <br>
+      <div class="pagination">
+        <span class="step-links">
+          {% if products.has_previous %}
+            <a href="?page=1">&laquo; Primera</a>
+            <a href="?page={{ products.previous_page_number }}">Anterior</a>
+          {% endif %}
+
+          <span class="current">
+            Página {{ products.number }} de {{ products.paginator.num_pages }}.
+          </span>
+
+          {% if products.has_next %}
+            <a href="?page={{ products.next_page_number }}">Siguiente</a>
+            <a href="?page={{ products.paginator.num_pages }}">Última &raquo;</a>
+          {% endif %}
+        </span>
+      </div>
+      <br>
+    </div>
+
+</div>
+
+
+
+
+{% endblock content %}

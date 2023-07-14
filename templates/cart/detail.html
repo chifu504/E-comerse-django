@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}<title>Carrito</title>{% endblock title %}
+{% block likncss %} <link rel="stylesheet" href="{% static 'css/carrito.css' %}">{% endblock likncss %}
+{% block content %}
+<div class="container">
+    <table class="product-table">
+      <thead>
+        <tr>
+          <th>Imagen</th>
+          <th>Nombre del producto</th>
+          <th>Cantidad</th>
+          <th>Talla</th>
+          <th>Color</th>
+          <th>remover</th>
+          <th>Precio unitario</th>
+          <th>Precio total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in cart %}
+            {% with product=item.product %}
+        <tr>
+            <td><a href="{{ product.get_absolute_url }}"><img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}"></a></td>
+            <td>{{ product.name }}</td>
+            <td>{{ item.quantity}}</td>
+            <td>{{ item.talla}}</td>
+            <td>{{ product.color}}</td>
+            <td><form action="{% url "cart:cart_remove" product.id %}"method="post"><button type="submit">remover</button>{% csrf_token %}</form></td>
+            <td>${{ item.price }}</td>
+            <td>${{ item.total_price }}</td>
+          </tr>
+        {% endwith %}
+          {% endfor %}
+      </tbody>
+    </table>
+    <div class="total-price">
+      {% comment %} <p>Precio total: ${{ cart.get_total_price }}</p> {% endcomment %}
+      {% if cart.coupon %}
+      <tr class="subtotal">
+      <td>Subtotal</td>
+      <td colspan="4"></td>
+      <td class="num">${{ cart.get_total_price|floatformat:2 }}</td>
+      </tr>
+      <tr>
+      <td>
+      "{{ cart.coupon.code }}" coupon
+      ({{ cart.coupon.discount }}% off)
+      </td>
+      <td colspan="4"></td>
+      <td class="num neg">
+      - ${{ cart.get_discount|floatformat:2 }}
+      </td>
+      </tr>
+      {% endif %}
+      <tr class="total">
+      <td>Total</td>
+      <td colspan="4"></td>
+      <td class="num">
+      ${{ cart.get_total_price_after_discount|floatformat:2 }}
+      </td>
+      </tr>
+      <a href="{% url "shop:product_list" %}"><button class="continue-shopping">Continuar comprando</button></a>
+      <a href="{% url 'orders:order_create' %}"><button class="pay-now">Pagar</button></a>
+    </div>
+      <p>Apply a coupon:</p>
+      <form action="{% url "coupons:apply" %}" method="post">
+      {{ coupon_apply_form }}
+      <input type="submit" value="Apply">
+      {% csrf_token %}
+      </form>
+
+      
+<div class="recomendacion">
+  <h3>Personas que compraron esto también compraron</h3>
+  <div class="recommendations-container">
+    {% if recommended_products %}
+        {% for p in recommended_products %}
+          <div class="recommendation-item">
+            <a href="{{ p.get_absolute_url }}">
+              <img src="{% if p.image %}{{ p.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}">
+            </a>
+            <p><a href="{{ p.get_absolute_url }}">{{ p.name }}</a></p>
+          </div>
+        {% endfor %}
+    {% endif %}
+  </div>
+
+</div>
+
+
+
+  </div>
+{% endblock content %}

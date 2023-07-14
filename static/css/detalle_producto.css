@@ -1,0 +1,154 @@
+@import url("estilos_generales.css");
+
+
+.container{
+  max-width: 1200px;
+  margin: 20px auto;
+}
+
+.product-detail {
+  display: flex;
+}
+.info_text{
+  width: 700px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.product-detail .image {
+  width: 400px;
+  height: 500px;
+  margin-right: 20px;
+}
+
+.product-detail .image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.product-detail .info {
+  flex-grow: 1;
+}
+
+.product-detail h2 {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.product-detail p {
+  margin: 0;
+}
+
+.size-options,
+.color-options,
+.quantity,
+.add-to-cart,
+.wishlist {
+  margin-top: 20px;
+}
+
+.size-options p,
+.color-options p,
+.quantity p {
+  font-weight: bold;
+}
+
+.size-options input[type="checkbox"],
+.size-options label {
+  margin-right: 10px;
+}
+
+.button-container {
+  display: flex;
+  gap: 10px;
+}
+
+.add-to-cart button,
+.wishlist button {
+  background-color: rgb(126, 34, 206);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+}
+
+  
+
+  /* comentario */
+  .comment-section {
+    margin-top: 30px;
+  }
+  
+  .comment-section h3 {
+    margin-bottom: 10px;
+  }
+  
+  .comments {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .comment {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .add-comment-form {
+    margin-top: 20px;
+  }
+  
+  .add-comment-form label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .add-comment-form textarea {
+    width: 100%;
+    height: 100px;
+    resize: vertical;
+    margin-bottom: 10px;
+  }
+  
+  .add-comment-form button {
+    background-color: rgb(126, 34, 206);
+    color: white;
+    border: none;
+    padding: 7px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-bottom: 15px;
+  }
+  
+  .add-comment-form button:hover {
+    background-color: rgb(104, 21, 177);
+  }
+  
+  /* recomendaciones de productos */
+  .recomendacion{
+    margin: 25px 0;
+  }
+  .recommendations-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 10px;
+  }
+  
+  
+  .recommendation-item {
+    flex-basis: 25%;
+    text-align: center;
+  }
+  
+  .recommendation-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .recommendation-item p {
+    margin-top: 10px;
+  }
+  

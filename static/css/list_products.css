@@ -1,0 +1,147 @@
+@import url("estilos_generales.css");
+.container {
+  max-width: 1200px;
+  margin: 15px auto;
+  position: relative;
+}
+
+/* categorias */
+.categories {
+  float: left;
+  width: 250px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  margin-right: 20px;
+}
+
+.selected{
+    background-color: rgb(126,34,206 );
+}
+
+
+.categories h3{
+  font-size: 18px;
+}
+
+.categories ul {
+  padding: 0;
+}
+
+.categories li {
+  margin-top: 10px;
+  margin-bottom: 7px;
+}
+
+.categories a {
+  display: block;
+  padding: 10px;
+  color: black;
+  font-size: 15px;
+}
+
+.categories a:hover {
+  cursor: pointer;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  color:  rgb(126,34,206 );
+}
+
+
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.filter-form {
+  margin-left: 20px;
+}
+
+.form-inputs {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.titulo_categoria{
+  font-size: 17px;
+}
+
+#price-min,
+#price-max {
+  width: 100px;
+  height: 25px;
+}
+
+.filter-form select {
+  width: 150px;
+  height: 40px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  color: #333;
+  font-size: 14px;
+}
+
+select:focus {
+  outline: none;
+}
+
+.filter-form button {
+  background-color: rgb(126, 34, 206);
+  color: white;
+  border: none;
+  padding: 7px 15px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.filter-form button:hover {
+  background-color: rgb(104, 21, 177);
+}
+
+
+/* productos */
+
+.grid {
+  width: 900px; 
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  grid-gap: 10px;
+}
+
+.product {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.product .product-image {
+  height: 250px;
+  /* overflow: hidden; */
+}
+
+.product .product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.product .product-details {
+  padding: 10px;
+}
+
+.product h3 {
+  margin-top: 0;
+  font-size: 17px;
+}
+
+.product p {
+  margin-bottom: 5px;
+  font-size: 15px;
+}
+
+.paginacion{
+margin: 10px 0;
+  text-align: center;
+}

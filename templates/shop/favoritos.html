@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block likncss %} <link rel="stylesheet" href="{% static 'css/favoritos.css' %}">{% endblock likncss %}
+{% block title %}<title> {{ product.name }}</title>{% endblock title %}
+
+{% block content %}
+  <div class="wishlist-container">
+    {% for favorite in user_favorites %}
+      <div class="wishlist-item">
+        <img src="{{ favorite.producto.image.url }}" alt="{{ favorite.producto.nombre }}">
+        <div class="wishlist-info">
+          <h3>{{ favorite.producto.name }}</h3>
+          <p>{{ favorite.producto.price }}</p>
+
+          <form action="{% url 'cart:cart_add' favorite.producto.id %}" method="post">
+            {% csrf_token %}
+            <div class="formulario">
+              <div class="size-options">
+                <p>SIZE</p>
+                {{ cart_product_form.talla }}
+              </div>
+              <div class="quantity">
+                <p>QUANTITY</p>
+                {{ cart_product_form.quantity }}
+              </div>
+              <div class="override">
+                {{ cart_product_form.override }}
+              </div>
+              <button type="submit" class="move-to-cart">Mover a la cesta</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="wishlist-buttons">               
+          <button class="remove" data-favorite-id="{{ favorite.id }}">Borrar</button>
+        </div>
+      </div>
+    {% empty %}
+      <p>No hay favoritos registrados.</p>
+    {% endfor %}
+  </div>
+  
+  <script src="{% static 'js/remover_favorito.js' %}"></script>
+  
+{% endblock content %}

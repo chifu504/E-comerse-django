@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block likncss %} <link rel="stylesheet" href="{% static 'css/registro.css' %}">{% endblock likncss %}
+{% block title %}<title> {{ product.name }}</title>{% endblock title %}
+{% block content %}
+<div class="container">
+    <form method="post">
+      <h2>INICIA SESION</h2>
+      <p>Ingrese sus datos</p>
+      {% csrf_token %}
+      <label for="{{ form.username.id_for_label }}">Nombre de usuario:</label>
+      {{ form.username }} <br>
+      <label for="{{ form.password.id_for_label }}">Contraseña:</label>
+      {{ form.password }} <br>
+  
+      <button type="submit">Iniciar sesion</button>
+    </form>
+  
+
+    
+    <div class="social-media">
+    <p>o iniciar con google</p>
+    <a class="google" href="{% url "social:begin" "google-oauth2" %}">GOOGLE</a>
+    <p>o no tienes una cuenta ? <a href="{% url 'cuentas:registro' %}">Registrate</a></p>
+    </div>
+  </div>
+  
+
+{% endblock content %}
